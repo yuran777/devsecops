@@ -115,7 +115,8 @@ jobs:
         with:
           # images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           # image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/master
+          # image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/master
+          image-ref: "ghcr.io/yuran777/devsecops:sha256-31819244dec93694f43c2d8fda8a7510eed308892ecec5315a06f4f287680cca.sig"
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
