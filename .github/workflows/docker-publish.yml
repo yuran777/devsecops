@@ -115,7 +115,8 @@ jobs:
         with:
           # images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           # image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          image-ref: ${{ env.REGISTRY }}/master
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
