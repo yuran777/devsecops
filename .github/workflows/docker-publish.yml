@@ -21,7 +21,6 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -80,11 +79,13 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+        env:
+          TAGS: ${{ steps.meta.outputs.tags }}
       # Just for the debugging    
       - name: debug
         shell: bash
         run: |
-          echo "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          echo "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:master"
 
   #     # Sign the resulting Docker image digest except on PRs.
   #     # This will only write to the public Rekor transparency log when the Docker
@@ -128,7 +129,7 @@ jobs:
         uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
         with:
           # image-ref: 'jenkins/jenkins:latest'
-          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest'
+          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:master'
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
