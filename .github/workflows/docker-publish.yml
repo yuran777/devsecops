@@ -121,7 +121,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          format: 'template'
+          format: 'salif'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
           # severity: 'CRITICAL,HIGH'
