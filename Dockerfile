@@ -1,16 +1,20 @@
-FROM ghcr.io/aquasecurity/trivy:0.48.0
+# Use the official Nginx base image
+FROM nginx:latest
 
-# Install required packages and cleanup
-RUN apk --no-cache add bash curl npm
+# Install curl to make API requests
+RUN apt-get update && apt-get install -y curl
 
-# Disable npm audit automatic fix
-RUN npm config set audit-level high
+# Create a directory to store custom HTML files
+WORKDIR /usr/share/nginx/html
 
-# Copy the entrypoint script
-COPY entrypoint.sh /
+# Copy the custom index.html file
+COPY index.html .
 
-# Set execute permission for the entrypoint script
-RUN chmod +x /entrypoint.sh
+# Make API request to OpenWeatherMap and embed the result in index.html
+RUN WEATHER=$(curl -s "http://wttr.in/Seoul?format=%t%20%C") && sed -i "s|{{WEATHER}}|$WEATHER|g" index.html
 
-# Set the entrypoint for the image
-ENTRYPOINT ["/entrypoint.sh"]
+# Expose port 80 for Nginx
+EXPOSE 80
+
+# Start Nginx when the container runs
+CMD ["nginx", "-g", "daemon off;"]
