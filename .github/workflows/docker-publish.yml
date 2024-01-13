@@ -118,13 +118,17 @@ jobs:
           # image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/master
           # image-ref: "ghcr.io/yuran777/devsecops:sha256:6c55dccdbb024d684e2e9cfa223bfbdd1512dcc9e6e53a481997020731aba069"
           image-ref: 'jenkins/jenkins:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
-          vuln-type: 'os,library'
-          format: 'table'
-          # severity: 'CRITICAL,HIGH'
+          severity: 'CRITICAL,HIGH'
           # format: 'table'
           # exit-code: '1'
           # ignore-unfixed: true
           # vuln-type: 'os,library'
           # severity: 'CRITICAL,HIGH'
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
